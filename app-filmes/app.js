@@ -5,7 +5,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const app = express();
 
-// --- CONFIGURAÇÃO ---
 app.use(session({ secret: 'segredo_filmes_ifc', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -16,7 +15,6 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
   (accessToken, refreshToken, profile, done) => {
-    // Mantive a lógica simples para teste, mas você pode recolocar o if do @ifc.edu.br aqui
     return done(null, profile);
   }
 ));
@@ -24,7 +22,6 @@ passport.use(new GoogleStrategy({
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
 
-// --- DADOS FICTÍCIOS (Simulando um Banco de Dados) ---
 const filmes = [
     { 
         titulo: "Interestelar", 
@@ -46,7 +43,6 @@ const filmes = [
     }
 ];
 
-// --- TEMPLATE BASE (HTML/CSS) ---
 const layout = (content, user = null) => `
     <!DOCTYPE html>
     <html lang="pt-br">
@@ -102,7 +98,6 @@ const layout = (content, user = null) => `
     </html>
 `;
 
-// --- ROTAS ---
 
 app.get('/', (req, res) => {
     if (req.isAuthenticated()) return res.redirect('/dashboard');
@@ -122,7 +117,6 @@ app.get('/auth/google/callback',
     (req, res) => res.redirect('/dashboard')
 );
 
-// ÁREA PROTEGIDA REFORMULADA
 app.get('/dashboard', (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/');
 
