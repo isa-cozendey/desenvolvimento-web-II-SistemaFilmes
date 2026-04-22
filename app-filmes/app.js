@@ -26,9 +26,24 @@ passport.deserializeUser((obj, done) => done(null, obj));
 
 // --- DADOS FICTÍCIOS (Simulando um Banco de Dados) ---
 const filmes = [
-    { titulo: "Interestelar", nota: 5, img: "https://image.tmdb.org/t/p/w500/nCbk9q2YvLMfwXvY79vovIsT9iR.jpg", review: "Melhor filme sobre viagem no tempo!" },
-    { titulo: "Matrix", nota: 4, img: "https://image.tmdb.org/t/p/w500/f89U3Y9L7dbptvTMRccvUvSTBDs.jpg", review: "Um clássico absoluto da ficção científica." },
-    { titulo: "Oppenheimer", nota: 5, img: "https://image.tmdb.org/t/p/w500/8GxvA9zDZUGPBwb93Z3fzWx9vCq.jpg", review: "Atuação e direção impecáveis." }
+    { 
+        titulo: "Interestelar", 
+        nota: 5, 
+        img: "https://upload.wikimedia.org/wikipedia/pt/3/3a/Interstellar_Filme.png", 
+        review: "Melhor filme sobre viagem no tempo!" 
+    },
+    { 
+        titulo: "Matrix", 
+        nota: 4, 
+        img: "https://upload.wikimedia.org/wikipedia/pt/c/c1/The_Matrix_Poster.jpg", 
+        review: "Um clássico absoluto da ficção científica." 
+    },
+    { 
+        titulo: "Oppenheimer", 
+        nota: 5, 
+        img: "https://upload.wikimedia.org/wikipedia/en/4/4a/Oppenheimer_%28film%29.jpg", 
+        review: "Atuação e direção impecáveis." 
+    }
 ];
 
 // --- TEMPLATE BASE (HTML/CSS) ---
@@ -41,9 +56,34 @@ const layout = (content, user = null) => `
         <title>IFC Movies</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-            body { background-color: #f8f9fa; }
+            body { background-color: #f0f2f5; }
             .navbar { background-color: #004a2f; } /* Verde IFC */
-            .movie-card img { height: 400px; object-fit: cover; }
+            
+            /* Novo estilo para o card de filme */
+            .movie-card {
+                border: none;
+                border-radius: 12px;
+                overflow: hidden;
+                transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            }
+
+            .movie-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+            }
+
+            /* Estilo para a imagem: enquadra sem distorcer */
+            .movie-card img {
+                height: 400px;
+                object-fit: contain; /* Enquadra a imagem inteira */
+                background-color: #f8f9fa; /* Fundo cinza claro para preencher o vazio */
+                border-bottom: 1px solid #eee;
+                padding: 10px; /* Borda "passe-partout" */
+            }
+
+            .movie-card .card-body {
+                padding: 1.25rem;
+            }
         </style>
     </head>
     <body>
@@ -69,7 +109,7 @@ app.get('/', (req, res) => {
     res.send(layout(`
         <div class="text-center py-5">
             <h1 class="display-4">Bem-vindo ao Avaliador de Filmes</h1>
-            <p class="lead">Faça login com sua conta institucional para ver as avaliações.</p>
+            <p class="lead">Faça login com sua conta google para ver as avaliações.</p>
             <a href="/auth/google" class="btn btn-primary btn-lg px-5">Login com Google</a>
         </div>
     `));
